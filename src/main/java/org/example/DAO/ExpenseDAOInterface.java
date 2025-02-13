@@ -1,4 +1,12 @@
 package org.example.DAO;
+import org.example.DTO.Expense;
+import org.example.Exceptions.DaoException;
 
-public class ExpenseDAOInterface {
+import java.util.List;
+
+public interface ExpenseDAOInterface
+{
+    public List<Expense> findAllExpenses() throws DaoException;
+
+
 }

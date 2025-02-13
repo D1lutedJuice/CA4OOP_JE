@@ -1,4 +1,13 @@
 package org.example.DAO;
 
-public class IncomeDAOInterface {
+import org.example.DTO.Income;
+import org.example.Exceptions.DaoException;
+
+import java.util.List;
+
+public interface IncomeDAOInterface
+{
+    public List<Income> findAllIncomes() throws DaoException;
+
+
 }
