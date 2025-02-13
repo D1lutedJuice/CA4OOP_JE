@@ -39,14 +39,18 @@ public class MainApp
          if (userChoice == 1) {
              try
              {
+                 double totalExpense = 0;
                  System.out.println("\nCall findAllExpenses()");
                  List<Expense> expenses = IExpenseDao.findAllExpenses();     // call a method in the DAO
 
                  if( expenses.isEmpty() )
                      System.out.println("There are no Expenses");
                  else {
-                     for (Expense expense : expenses)
+                     for (Expense expense : expenses) {
                          System.out.println("Expense: " + expense.toString());
+                         totalExpense += expense.getExpenseAmount();
+                     }
+                     System.out.println("\nTotal Expenses: €" + totalExpense);
                  }
 
 
@@ -55,6 +59,7 @@ public class MainApp
              {
                  e.printStackTrace();
              }
+
 
          }
          //adding expense
@@ -69,14 +74,18 @@ public class MainApp
          else if (userChoice == 4) {
              try
              {
+                 double totalIncome = 0;
                  System.out.println("\nCall findAllIncomes()");
                  List<Income> incomes = IIncomeDao.findAllIncomes();     // call a method in the DAO
 
                  if( incomes.isEmpty() )
                      System.out.println("There are no Incomes");
                  else {
-                     for (Income income : incomes)
+                     for (Income income : incomes) {
                          System.out.println("Income: " + income.toString());
+                         totalIncome += income.getIncomeAmount();
+                     }
+                     System.out.println("total Income: €" + totalIncome);
                  }
 
 
@@ -116,7 +125,7 @@ public class MainApp
          System.out.println("Enter your choice: ");
          userChoice = keyboard.nextInt();
      }
-        System.out.println("Exiting... Thank you for using Finance Tracker!");
+        System.out.println("Exiting... Thank you for using Finance Tracker! :D");
 
 
     }
