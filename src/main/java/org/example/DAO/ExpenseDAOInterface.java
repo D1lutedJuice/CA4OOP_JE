@@ -8,6 +8,7 @@ public interface ExpenseDAOInterface
 {
     public List<Expense> findAllExpenses() throws DaoException;
     public void addExpense(Expense expense) throws DaoException;
+    public void deleteExpense(int id) throws DaoException;
 
 
 }

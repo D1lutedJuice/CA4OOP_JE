@@ -97,6 +97,22 @@ public class MainApp
          }
          //delete expense by id
          else if (userChoice == 3) {
+             try{
+                 System.out.println("\n--Delete Expense--");
+                 System.out.println("Enter expense ID: ");
+                 int id= keyboard.nextInt();
+
+                 IExpenseDao.deleteExpense(id);
+
+                 System.out.println("Expense Deleted:\n");
+                 List<Expense> expenses = IExpenseDao.findAllExpenses();
+                 for (Expense expense : expenses) {
+                     System.out.println("Expense: " + expense.toString());
+                 }
+
+             } catch (DaoException e) {
+                 e.printStackTrace();
+             }
 
          }
          //list all income and total
@@ -158,6 +174,23 @@ public class MainApp
          }
          //delete income by id
          else if (userChoice == 6) {
+             try{
+                 System.out.println("\n--Delete Income--");
+                 System.out.println("Enter income ID: ");
+                 int id= keyboard.nextInt();
+
+                 IIncomeDao.deleteIncome(id);
+
+                 System.out.println("Income Deleted:\n");
+                 List<Income> incomes = IIncomeDao.findAllIncomes();
+                 for (Income income : incomes) {
+                     System.out.println("Income: " + income.toString());
+                 }
+
+
+             } catch (DaoException e) {
+                 e.printStackTrace();
+             }
 
          }
          //monthly report

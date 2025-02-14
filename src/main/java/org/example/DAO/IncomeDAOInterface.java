@@ -10,6 +10,6 @@ public interface IncomeDAOInterface
 {
     public List<Income> findAllIncomes() throws DaoException;
     public void addIncome(Income income) throws DaoException;
-
+    public void deleteIncome(int id) throws DaoException;
 
 }

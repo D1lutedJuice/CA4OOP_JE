@@ -81,7 +81,7 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
             preparedStatement.executeUpdate();
 
         }  catch (SQLException e) {
-            throw new DaoException("addExpense() " + e.getMessage());
+            throw new DaoException("addIncome() " + e.getMessage());
         } finally {
             try{
                 if (preparedStatement != null) {
@@ -91,7 +91,36 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
                     freeConnection(connection);
                 }
             }catch (SQLException e) {
-                throw new DaoException("addExpense() " + e.getMessage());
+                throw new DaoException("addIncome() " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void deleteIncome(int id) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try{
+            connection = this.getConnection();
+            String query = "DELETE FROM income WHERE incomeID = ?";
+            preparedStatement= connection.prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException e) {
+            throw new DaoException("deleteIncome() " + e.getMessage());
+        } finally {
+            try{
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            }catch (SQLException e) {
+                throw new DaoException("deleteIncome() " + e.getMessage());
             }
         }
     }
