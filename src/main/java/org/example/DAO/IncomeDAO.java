@@ -1,6 +1,7 @@
 package org.example.DAO;
 
 
+import org.example.DTO.Expense;
 import org.example.DTO.Income;
 import org.example.Exceptions.DaoException;
 
@@ -61,5 +62,37 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
             }
         }
         return incomeList;     // may be empty
+    }
+
+    @Override
+    public void addIncome(Income income) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try
+        {
+            connection = this.getConnection();
+            String query= "INSERT INTO tracker_finance.income VALUES (null, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, income.getIncomeTitle());
+            preparedStatement.setDouble(2, income.getIncomeAmount());
+            preparedStatement.setString(3, income.getIncomeDate());
+            preparedStatement.executeUpdate();
+
+        }  catch (SQLException e) {
+            throw new DaoException("addExpense() " + e.getMessage());
+        } finally {
+            try{
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            }catch (SQLException e) {
+                throw new DaoException("addExpense() " + e.getMessage());
+            }
+        }
     }
 }

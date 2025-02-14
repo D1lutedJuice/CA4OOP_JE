@@ -64,6 +64,35 @@ public class MainApp
          }
          //adding expense
          else if (userChoice == 2) {
+             try{
+
+                 System.out.println("\n--Add Expense--");
+                 System.out.println("Enter expense Title: ");
+                 keyboard.nextLine();
+                 String expenseTitle = keyboard.nextLine();
+                 System.out.println("Enter expense Category: ");
+                 String expenseCategory = keyboard.nextLine();
+                 System.out.println("Enter expense Amount: ");
+                 double expenseAmount = keyboard.nextDouble();
+                 keyboard.nextLine();
+                 System.out.println("Enter expense Date Incurred (yyyy-mm-dd): ");
+                 String expenseDate = keyboard.nextLine();
+
+                 Expense Nexpense= new Expense(0, expenseTitle, expenseCategory, expenseAmount, expenseDate);
+                 IExpenseDao.addExpense(Nexpense);
+
+                 System.out.println("Expense Added\n");
+                 List<Expense> expenses = IExpenseDao.findAllExpenses();
+                 for (Expense expense : expenses) {
+                     System.out.println("Expense: " + expense.toString());
+
+                 }
+
+             }
+             catch (DaoException e)
+             {
+                 e.printStackTrace();
+             }
 
          }
          //delete expense by id
@@ -98,6 +127,33 @@ public class MainApp
          }
          //add income
          else if (userChoice == 5) {
+
+             try{
+
+                 System.out.println("\n--Add Income--");
+                 System.out.println("Enter income Title: ");
+                 keyboard.nextLine();
+                 String incomeTitle = keyboard.nextLine();
+                 System.out.println("Enter income Amount: ");
+                 double incomeAmount = keyboard.nextDouble();
+                 keyboard.nextLine();
+                 System.out.println("Enter income Date Earned (yyyy-mm-dd): ");
+                 String incomeDate = keyboard.nextLine();
+
+                 Income NIncome= new Income(0, incomeTitle, incomeAmount, incomeDate);
+                 IIncomeDao.addIncome(NIncome);
+
+                 System.out.println("new income Added:\n");
+                 List<Income> incomes = IIncomeDao.findAllIncomes();
+                 for (Income income : incomes) {
+                     System.out.println("Income: " + income.toString());
+                 }
+
+             }
+             catch (DaoException e)
+             {
+                 e.printStackTrace();
+             }
 
          }
          //delete income by id

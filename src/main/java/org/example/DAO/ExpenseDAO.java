@@ -62,4 +62,39 @@ public class ExpenseDAO extends MySqlDAO implements ExpenseDAOInterface {
         }
         return expenseList;     // may be empty
     }
+
+    @Override
+    public void addExpense(Expense expense) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try
+        {
+            connection = this.getConnection();
+            String query= "INSERT INTO tracker_finance.expenses VALUES (null, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, expense.getExpenseTitle());
+            preparedStatement.setString(2, expense.getExpenseCategory());
+            preparedStatement.setDouble(3, expense.getExpenseAmount());
+            preparedStatement.setString(4, expense.getExpenseDate());
+            preparedStatement.executeUpdate();
+
+        }  catch (SQLException e) {
+            throw new DaoException("addExpense() " + e.getMessage());
+        } finally {
+            try{
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            }catch (SQLException e) {
+                throw new DaoException("addExpense() " + e.getMessage());
+            }
+        }
+    }
+
+
 }
