@@ -5,7 +5,7 @@ import org.example.DTO.Income;
 import org.example.Exceptions.DaoException;
 
 import java.util.List;
-
+//defines methods for DAO
 public interface IncomeDAOInterface
 {
     public List<Income> findAllIncomes() throws DaoException;

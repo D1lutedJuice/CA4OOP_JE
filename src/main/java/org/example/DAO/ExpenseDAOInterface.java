@@ -3,7 +3,7 @@ import org.example.DTO.Expense;
 import org.example.Exceptions.DaoException;
 
 import java.util.List;
-
+//defines methods for DAO
 public interface ExpenseDAOInterface
 {
     public List<Expense> findAllExpenses() throws DaoException;

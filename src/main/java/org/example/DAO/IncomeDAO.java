@@ -13,12 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
-    /**
-     * Will access and return a List of all users in User database table
-     *
-     * @return List of User objects
-     * @throws DaoException
-     */
+
+    //gets all incomess and returns a list of them
     @Override
     public List<Income> findAllIncomes() throws DaoException {
         Connection connection = null;
@@ -27,20 +23,20 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
         List<Income> incomeList = new ArrayList<>();
 
         try {
-            //Get connection object using the getConnection() method inherited
-            // from the super class (MySqlDao.java)
+            //get connected from the super class MySqlDao.java
             connection = this.getConnection();
 
             String query = "SELECT * FROM INCOME";
             preparedStatement = connection.prepareStatement(query);
 
-            //Using a PreparedStatement to execute SQL...
+            //Using a PreparedStatement to execute SQL
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int incomeId = resultSet.getInt("incomeID");
                 String incomeTitle = resultSet.getString("title");
                 double incomeAmount = resultSet.getDouble("amount");
                 String incomeDate = resultSet.getString("dateEarned");
+                //create a new income object and add each income into a list
                 Income i = new Income(incomeId, incomeTitle, incomeAmount, incomeDate);
                 incomeList.add(i);
             }
@@ -61,9 +57,10 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
                 throw new DaoException("findAllIncomes() " + e.getMessage());
             }
         }
-        return incomeList;     // may be empty
+        return incomeList;// may be empty
     }
 
+    //adding a new income
     @Override
     public void addIncome(Income income) throws DaoException {
         Connection connection = null;
@@ -71,13 +68,16 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
 
         try
         {
+            //get connected from the super class MySqlDao.java
             connection = this.getConnection();
             String query= "INSERT INTO tracker_finance.income VALUES (null, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(query);
 
+            //sets the values for the prepared statement
             preparedStatement.setString(1, income.getIncomeTitle());
             preparedStatement.setDouble(2, income.getIncomeAmount());
             preparedStatement.setString(3, income.getIncomeDate());
+            //executes the update
             preparedStatement.executeUpdate();
 
         }  catch (SQLException e) {
@@ -96,6 +96,7 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
         }
     }
 
+    //deleting an income based on id
     @Override
     public void deleteIncome(int id) throws DaoException {
         Connection connection = null;
@@ -106,6 +107,7 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
             String query = "DELETE FROM income WHERE incomeID = ?";
             preparedStatement= connection.prepareStatement(query);
 
+            //set the id to delete
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
@@ -125,6 +127,7 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
         }
     }
 
+    //finding all the incomes from a particular month and returning a list
     @Override
     public List<Income> findIncomesByMonth(String month) throws DaoException {
         Connection connection = null;
@@ -138,9 +141,10 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
             // so for example 2025-01-01 and 2025-01-31 it will look through all the days in that month
             String query = "SELECT * FROM income WHERE `dateEarned` BETWEEN ? AND ? ";
             preparedStatement= connection.prepareStatement(query);
-            //the year and month will be put in by the user in "yyyy-mm" format
+            //set the year and month, it will be put in by the user in "yyyy-mm" format
             preparedStatement.setString(1, month+"-01");
             preparedStatement.setString(2, month+"-31");
+            //executes the query
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -149,6 +153,7 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
                 double incomeAmount = resultSet.getDouble("amount");
                 String incomeDate = resultSet.getString("dateEarned");
 
+                //creates new income object and adds it to the list for each income in that month
                 Income i = new Income(incomeId, incomeTitle, incomeAmount, incomeDate);
                 monthlyIncomeList.add(i);
             }

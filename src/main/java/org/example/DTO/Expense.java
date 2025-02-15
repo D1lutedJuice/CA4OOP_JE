@@ -1,6 +1,7 @@
 package org.example.DTO;
 
 public class Expense {
+    //variables
     private int expenseID;
     private String expenseTitle;
     private String expenseCategory;
@@ -64,6 +65,7 @@ public class Expense {
         this.expenseDate = expenseDate;
     }
 
+    //to string
     @Override
     public String toString() {
         return "Expense{" +

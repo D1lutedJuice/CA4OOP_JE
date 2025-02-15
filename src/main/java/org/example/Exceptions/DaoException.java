@@ -2,12 +2,9 @@ package org.example.Exceptions;
 
 import java.sql.SQLException;
 
+//custom exception to show errors
 public class DaoException extends SQLException
 {
-    public DaoException()
-    {
-        // not used
-    }
 
     public DaoException(String aMessage)
     {
