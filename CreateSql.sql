@@ -22,18 +22,21 @@ PRIMARY KEY   (`incomeID`)
 );
 
 INSERT INTO expenses VALUES
-(null, 'Weekly Shopping', 'Groceries', 68.50, '2025-02-03'),
-(null, 'Gym Membership', 'Fitness', 32.00, '2025-02-06'),
+(null, 'Weekly Shopping', 'Groceries', 68.50, '2025-01-03'),
+(null, 'Gym Membership', 'Fitness', 32.00, '2025-01-06'),
 (null, 'Phone Bill', 'Utilities', 55.23, '2025-02-12'),
 (null, 'Takeout', 'food & Drinks', 25.50 , '2025-02-11'),
 (null, 'Electricity Bill', 'Utilities', 85.00 , '2025-02-08'),
 (null, 'Netflix Membership', 'Entertainment', 14.99 , '2025-02-06');
 
+
 INSERT INTO income VALUES
-(null, 'Waitering', 250.00, '2025-02-06'),
+(null, 'Waitering', 250.00, '2025-01-06'),
 (null, 'Baby Sitting', 60.00, '2025-02-01'),
-(null, 'Vinted', 20.00, '2025-02-03'),
-(null, 'Tutoring', 75.00, '2025-02-13');
+(null, 'Vinted', 20.00, '2025-01-03'),
+(null, 'Tutoring', 75.00, '2025-02-13'),
+(null, 'Waitering', 320.00, '2025-02-03');
+
 
 
 

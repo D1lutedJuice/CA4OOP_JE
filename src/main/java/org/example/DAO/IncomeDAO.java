@@ -124,4 +124,52 @@ public class IncomeDAO extends MySqlDAO implements IncomeDAOInterface {
             }
         }
     }
+
+    @Override
+    public List<Income> findIncomesByMonth(String month) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Income> monthlyIncomeList = new ArrayList<>();
+
+        try{
+            connection = this.getConnection();
+            //selects the expenses between two dates
+            // so for example 2025-01-01 and 2025-01-31 it will look through all the days in that month
+            String query = "SELECT * FROM income WHERE `dateEarned` BETWEEN ? AND ? ";
+            preparedStatement= connection.prepareStatement(query);
+            //the year and month will be put in by the user in "yyyy-mm" format
+            preparedStatement.setString(1, month+"-01");
+            preparedStatement.setString(2, month+"-31");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int incomeId = resultSet.getInt("incomeID");
+                String incomeTitle = resultSet.getString("title");
+                double incomeAmount = resultSet.getDouble("amount");
+                String incomeDate = resultSet.getString("dateEarned");
+
+                Income i = new Income(incomeId, incomeTitle, incomeAmount, incomeDate);
+                monthlyIncomeList.add(i);
+            }
+
+        } catch (SQLException e) {
+            throw new DaoException("findIncomesByMonth() " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findIncomesByMonth() " + e.getMessage());
+            }
+        }
+        return monthlyIncomeList;
+    }
 }

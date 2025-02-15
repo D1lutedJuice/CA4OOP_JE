@@ -195,6 +195,41 @@ public class MainApp
          }
          //monthly report
          else if (userChoice == 7) {
+             try
+             {
+                 double totalIncome = 0;
+                 double totalExpense = 0;
+                 double leftOver = 0;
+                 System.out.println("\n--Monthly report--");
+                 System.out.println("Enter year and month YYYY-MMM: ");
+                 keyboard.nextLine();
+                 String month = keyboard.nextLine();
+
+                 IExpenseDao.findExpensesByMonth(month);
+                 List<Expense> expenses = IExpenseDao.findExpensesByMonth(month);
+                 for (Expense expense : expenses) {
+                     System.out.println("Expense: " + expense.toString());
+                     totalExpense += expense.getExpenseAmount();
+                 }
+
+                 IIncomeDao.findIncomesByMonth(month);
+                 List<Income> incomes = IIncomeDao.findIncomesByMonth(month);
+                 for (Income income : incomes) {
+                     System.out.println("Income: " + income.toString());
+                     totalIncome += income.getIncomeAmount();
+                 }
+                 System.out.println("total Expense: €" + totalExpense);
+                 System.out.println("total Income: €" + totalIncome);
+                 leftOver = totalIncome - totalExpense;
+                 // System.out.println("Money Left: €" + leftOver);
+                 System.out.printf("Money left: €%.2f\n", leftOver);
+
+
+
+             } catch (DaoException e) {
+                 e.printStackTrace();
+
+             }
 
          }
          else {
@@ -214,7 +249,7 @@ public class MainApp
          System.out.println("Enter your choice: ");
          userChoice = keyboard.nextInt();
      }
-        System.out.println("Exiting... Thank you for using Finance Tracker! :D");
+        System.out.println("Exiting... Thank you for using the finance tracker! :D");
 
 
     }

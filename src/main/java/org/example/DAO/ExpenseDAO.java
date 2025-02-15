@@ -125,5 +125,52 @@ public class ExpenseDAO extends MySqlDAO implements ExpenseDAOInterface {
         }
     }
 
+    @Override
+    public List<Expense> findExpensesByMonth(String month) throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Expense> monthlyExpenseList = new ArrayList<>();
 
+        try{
+            connection = this.getConnection();
+            //selects the expenses between two dates
+            // so for example 2025-01-01 and 2025-01-31 it will look through all the days in that month
+            String query = "SELECT * FROM `expenses` WHERE `dateIncurred` BETWEEN ? AND ?";
+            preparedStatement= connection.prepareStatement(query);
+            //the year and month will be put in by the user in "yyyy-mm" format
+            preparedStatement.setString(1, month+"-01");
+            preparedStatement.setString(2, month+"-31");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int expenseID = resultSet.getInt("expenseID");
+                String expenseTitle = resultSet.getString("title");
+                String expenseCategory = resultSet.getString("category");
+                double expenseAmount = resultSet.getDouble("amount");
+                String expenseDate = resultSet.getString("dateIncurred");
+
+                Expense e = new Expense(expenseID, expenseTitle, expenseCategory, expenseAmount, expenseDate);
+                monthlyExpenseList.add(e);
+            }
+
+
+        } catch (SQLException e) {
+            throw new DaoException("findExpensesByMonth() " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findExpensesByMonth() " + e.getMessage());
+            }
+        }
+        return monthlyExpenseList;
+    }
 }
